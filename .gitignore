@@ -1,0 +1,40 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+#README
+README-Guide.md
+README-template.md
+README.md
+
+#style guide
+style-guide.md
+
+# production
+/build
+
+/design
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+*.sketch
+*.fig
+*.xd
+.DS_Store
+.prettierignore
+
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
