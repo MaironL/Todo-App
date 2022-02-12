@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,11 +17,13 @@ body {
 #root {
   display: grid;
   grid: auto / auto;
+  justify-items: center;
+  align-items: center;
   /* grid-template-areas: Example
   "navbar" 
   "main"
   "footer"
   ; */
   min-height: 100%;
-  background-color: var(--clr-bg-2);
+  /* background-color: black; */
 }
