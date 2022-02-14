@@ -1,12 +1,14 @@
+import { useGlobalContext } from 'context';
 import { check, cross } from 'infrastructure/assets/images';
 
 interface TaskInterface {
   isCheck: boolean;
-  checkIn: React.Dispatch<React.SetStateAction<boolean>>;
   isDarkTheme: boolean;
   todoTask: string;
+  id: string;
 }
-const Task = ({ isCheck, checkIn, isDarkTheme, todoTask }: TaskInterface) => {
+const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
+  const { dispatch, checkIn, updateTask, deleteTask } = useGlobalContext();
   return (
     <div
       className={`flex justify-between items-center px-5 py-4 first:rounded-t-md last:rounded-b-md last:border-b-0 last:shadow-lg border-b-[1px] ${
@@ -15,11 +17,11 @@ const Task = ({ isCheck, checkIn, isDarkTheme, todoTask }: TaskInterface) => {
           : 'bg-[#ffffff] border-b-[#EDECF2]'
       }`}
     >
-      <div className='flex'>
+      <div className='flex w-full'>
         <div
           className='relative flex items-center pr-4 sm:pr-5'
           tabIndex={0}
-          onClick={() => checkIn((prevCheck) => !prevCheck)}
+          onClick={checkIn(dispatch, id)}
         >
           <div
             className={`border rounded-full w-5 h-5 sm:w-6 sm:h-6 sm:border-2 cursor-pointer ${
@@ -28,16 +30,27 @@ const Task = ({ isCheck, checkIn, isDarkTheme, todoTask }: TaskInterface) => {
           ></div>
           {isCheck && <img className='absolute left-[15%]' src={check} alt='check' />}
         </div>
-        <p
-          className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer ${
-            isDarkTheme ? 'bg-[#25273c] text-[#BEC0D9]' : 'bg-[#fafafa] text-[#64636E]'
-          } ${isCheck && 'line-through text-[#696B80]'} sm:text-lg`}
-        >
-          {todoTask}
-        </p>
+        <input
+          onChange={(e) => updateTask(dispatch, id, e)}
+          value={todoTask}
+          className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer w-full outline-0 outline-none ${
+            isDarkTheme && !isCheck
+              ? 'bg-[#25273c] text-[#BEC0D9]'
+              : isDarkTheme && isCheck
+              ? 'bg-[#25273c] text-[#696B80] line-through'
+              : !isDarkTheme && !isCheck
+              ? 'bg-[#ffffff] text-[#64636E]'
+              : 'bg-[#ffffff] text-[#cdcdd6] line-through'
+          } sm:text-lg`}
+        />
       </div>
 
-      <img className='h-3 ml-2 sm:h-4 cursor-pointer' src={cross} alt='delete' />
+      <img
+        className='h-3 ml-2 sm:h-4 cursor-pointer'
+        src={cross}
+        alt='delete'
+        onClick={deleteTask(dispatch, id)}
+      />
     </div>
   );
 };

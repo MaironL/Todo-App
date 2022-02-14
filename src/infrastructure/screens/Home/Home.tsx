@@ -1,13 +1,8 @@
-import Header from 'infrastructure/components/molecules/Header/Header';
-import NewTask from 'infrastructure/components/molecules/NewTask/NewTask';
-import Task from 'infrastructure/components/molecules/Task/Task';
-import TaskLeft from 'infrastructure/components/molecules/TaskLeft/TaskLeft';
-import TaskFilter from 'infrastructure/components/molecules/TaskFilter/TaskFilter';
+import { Header, NewTask, Task, TaskLeft, TaskFilter } from 'infrastructure/components';
 import { useGlobalContext } from 'context';
 
 const Home = () => {
-  const { isDarkTheme, isCheck, markup, dispatch, darkMode, checkIn } =
-    useGlobalContext();
+  const { isDarkTheme, tasks } = useGlobalContext();
 
   return (
     <main
@@ -19,21 +14,17 @@ const Home = () => {
     >
       <div className='container max-w-[540px] mt-11'>
         {/* Header */}
-        <Header isDarkTheme={isDarkTheme} darkTheme={darkMode(dispatch)} />
+        <Header isDarkTheme={isDarkTheme} />
         {/* Input */}
-        <NewTask
-          isCheck={isCheck}
-          checkIn={checkIn(dispatch)}
-          isDarkTheme={isDarkTheme}
-        />
+        <NewTask isDarkTheme={isDarkTheme} />
         {/* task */}
         <div>
-          {markup.map((task, i) => {
-            const { todoTask } = task;
+          {tasks.map((task, i) => {
+            const { todoTask, id, isCheck } = task;
             return (
               <Task
+                id={id}
                 isCheck={isCheck}
-                checkIn={checkIn(dispatch)}
                 isDarkTheme={isDarkTheme}
                 todoTask={todoTask}
                 key={i}
