@@ -19,7 +19,7 @@ export interface IInitialState {
 }
 
 export const initialState: IInitialState = {
-  isDarkTheme: false,
+  isDarkTheme: true,
   newTask: '',
   tasks: [],
   filteredTask: [],

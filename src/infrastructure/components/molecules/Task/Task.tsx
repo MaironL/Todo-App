@@ -17,7 +17,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
           : 'bg-[#ffffff] border-b-[#EDECF2]'
       }`}
     >
-      <div className='flex w-full'>
+      <div className='flex w-3/4'>
         <div
           className='relative flex items-center pr-4 sm:pr-5'
           tabIndex={0}
@@ -33,7 +33,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
         <input
           onChange={(e) => updateTask(dispatch, id, e)}
           value={todoTask}
-          className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer w-3/4 outline-0 outline-none ${
+          className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer w-full outline-0 outline-none ${
             isDarkTheme && !isCheck
               ? 'bg-[#25273c] text-[#BEC0D9]'
               : isDarkTheme && isCheck
