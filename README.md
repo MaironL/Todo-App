@@ -51,6 +51,7 @@ efer not to add a screenshot, feel free to remove this entire section.\*\*
 - Flexbox
 - CSS Grid
 - Mobile-first workflow
+- [TypeScript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/) - JS library
 - [Tailwind](https://tailwindcss.com/) - For styles
 
