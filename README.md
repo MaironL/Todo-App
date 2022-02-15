@@ -39,8 +39,8 @@ efer not to add a screenshot, feel free to remove this entire section.\*\*
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://www.frontendmentor.io/solutions/todo-app-with-reacttypescript-and-tailwind-JHU_EOz6o)
-- Live Site URL: [Add live site URL here](https://todo-ml.netlify.app/)
+- Solution URL: [Go to Front-end Mentor solution](https://www.frontendmentor.io/solutions/todo-app-with-reacttypescript-and-tailwind-JHU_EOz6o)
+- Live Site URL: [Go to live example](https://todo-ml.netlify.app/)
 
 ## My process
 
