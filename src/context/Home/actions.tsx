@@ -5,6 +5,9 @@ import {
   GET_TASK,
   UPDATE_TASK,
   DELETE_TASK,
+  CLEAR_COMPLETED,
+  FILTER_TASKS,
+  REORDER_TASK,
 } from './constant';
 
 export const darkMode = (dispatch: React.Dispatch<any>) => () => {
@@ -39,4 +42,26 @@ export const updateTask = (
 
 export const deleteTask = (dispatch: React.Dispatch<any>, id: string) => () => {
   dispatch({ type: DELETE_TASK, payload: id });
+};
+
+export const howMany = (
+  tasksLeft: { todoTask: string; id: string; isCheck: boolean }[]
+) => {
+  const itemsLeft = tasksLeft.filter((item) => item.isCheck === false);
+  return itemsLeft.length;
+};
+
+export const clear = (dispatch: React.Dispatch<any>) => () => {
+  dispatch({ type: CLEAR_COMPLETED });
+};
+
+export const filterTask = (dispatch: React.Dispatch<any>, show: string) => {
+  dispatch({ type: FILTER_TASKS, payload: show });
+};
+
+export const reorderTask = (
+  dispatch: React.Dispatch<any>,
+  task: { todoTask: string; id: string; isCheck: boolean }[]
+) => {
+  dispatch({ type: REORDER_TASK, payload: task });
 };

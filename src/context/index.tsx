@@ -7,6 +7,10 @@ import {
   getTask,
   updateTask,
   deleteTask,
+  howMany,
+  clear,
+  filterTask,
+  reorderTask,
 } from 'context/Home/actions';
 
 //CreateContext Interface
@@ -25,6 +29,23 @@ interface IAppContext extends IInitialState {
     e: React.ChangeEvent<HTMLInputElement>
   ) => void;
   deleteTask: (dispatch: React.Dispatch<any>, id: string) => () => void;
+  howMany: (
+    tasksLeft: {
+      todoTask: string;
+      id: string;
+      isCheck: boolean;
+    }[]
+  ) => number;
+  clear: (dispatch: React.Dispatch<any>) => () => void;
+  filterTask: (dispatch: React.Dispatch<any>, show: string) => void;
+  reorderTask: (
+    dispatch: React.Dispatch<any>,
+    task: {
+      todoTask: string;
+      id: string;
+      isCheck: boolean;
+    }[]
+  ) => void;
 }
 
 //The Create Context
@@ -37,6 +58,10 @@ const AppContext = createContext<IAppContext>({
   getTask,
   updateTask,
   deleteTask,
+  howMany,
+  clear,
+  filterTask,
+  reorderTask,
 });
 
 const AppProvider = ({ children }: any) => {
@@ -53,6 +78,10 @@ const AppProvider = ({ children }: any) => {
         getTask,
         updateTask,
         deleteTask,
+        howMany,
+        clear,
+        filterTask,
+        reorderTask,
       }}
     >
       {children}

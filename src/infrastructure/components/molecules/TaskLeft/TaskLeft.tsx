@@ -1,9 +1,12 @@
+import { useGlobalContext } from 'context';
 import TaskFilter from 'infrastructure/components/molecules/TaskFilter/TaskFilter';
 
 interface TaskLeftInterface {
   isDarkTheme: boolean;
 }
 const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
+  const { howMany, tasks, clear, dispatch } = useGlobalContext();
+
   return (
     <div
       className={`font-["Josefin_Sans"] text-xs flex justify-between items-center px-4 py-4 first:rounded-t-md last:rounded-b-md last:border-b-0 last:shadow-lg border-b-[1px] sm:text-sm ${
@@ -12,11 +15,12 @@ const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
           : 'bg-[#ffffff] border-b-[#EDECF2] text-[#A8A7AB]'
       }`}
     >
-      <p>5 items left</p>
+      <p>{howMany(tasks)} items left</p>
       <div className='hidden sm:block'>
         <TaskFilter isDarkTheme={isDarkTheme} />
       </div>
       <p
+        onClick={clear(dispatch)}
         className={`cursor-pointer  ${
           isDarkTheme ? ' hover:text-[#BEC0D9]' : 'hover:text-[#64636E]'
         }`}

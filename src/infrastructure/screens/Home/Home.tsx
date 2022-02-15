@@ -1,9 +1,16 @@
 import { Header, NewTask, Task, TaskLeft, TaskFilter } from 'infrastructure/components';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useGlobalContext } from 'context';
+import useReorder from './useReorderHook';
+import { useEffect } from 'react';
 
 const Home = () => {
-  const { isDarkTheme, tasks } = useGlobalContext();
+  const { isDarkTheme, filteredTask, tasks, filterTask, dispatch } = useGlobalContext();
+  const { reorder } = useReorder();
 
+  useEffect(() => {
+    filterTask(dispatch, 'All');
+  }, [tasks]);
   return (
     <main
       className={`w-full h-full relative bg-no-repeat bg-top bg-contain sm:bg-auto pb-[4.4rem] sm:pb-[2rem]  ${
@@ -12,32 +19,68 @@ const Home = () => {
           : 'bg-[#fafafa] bg-mobileLightTheme sm:bg-desktopLightTheme'
       } px-6 flex flex-col items-center`}
     >
-      <div className='container max-w-[540px] mt-11'>
-        {/* Header */}
-        <Header isDarkTheme={isDarkTheme} />
-        {/* Input */}
-        <NewTask isDarkTheme={isDarkTheme} />
-        {/* task */}
-        <div>
-          {tasks.map((task, i) => {
-            const { todoTask, id, isCheck } = task;
-            return (
-              <Task
-                id={id}
-                isCheck={isCheck}
-                isDarkTheme={isDarkTheme}
-                todoTask={todoTask}
-                key={i}
-              />
-            );
-          })}
-          {/*task left */}
-          <TaskLeft isDarkTheme={isDarkTheme} />
+      <DragDropContext
+        onDragEnd={(result) => {
+          const { source, destination } = result;
+          if (!destination) {
+            return;
+          }
+          if (
+            source.index === destination.index &&
+            source.droppableId === destination.droppableId
+          ) {
+            return;
+          }
+          reorder(tasks, source.index, destination.index);
+        }}
+      >
+        <div className='container max-w-[540px] mt-11'>
+          {/* Header */}
+          <Header isDarkTheme={isDarkTheme} />
+          {/* Input */}
+          <NewTask isDarkTheme={isDarkTheme} />
+          {/* task */}
+          <Droppable droppableId='tasks'>
+            {(droppProv) => (
+              <div {...droppProv.droppableProps} ref={droppProv.innerRef}>
+                {filteredTask.map((task, i) => {
+                  const { todoTask, id, isCheck } = task;
+
+                  return (
+                    <Draggable key={id} draggableId={id} index={i}>
+                      {(draggProv) => (
+                        <div
+                          className={` border-b-[1px] ${
+                            isDarkTheme
+                              ? 'bg-[#25273c] border-b-[#303348]'
+                              : 'bg-[#ffffff] border-b-[#EDECF2]'
+                          }`}
+                          {...draggProv.draggableProps}
+                          {...draggProv.dragHandleProps}
+                          ref={draggProv.innerRef}
+                        >
+                          <Task
+                            id={id}
+                            isCheck={isCheck}
+                            isDarkTheme={isDarkTheme}
+                            todoTask={todoTask}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {/*task left */}
+                {droppProv.placeholder}
+                <TaskLeft isDarkTheme={isDarkTheme} />
+              </div>
+            )}
+          </Droppable>
+          <div className='sm:hidden'>
+            <TaskFilter isDarkTheme={isDarkTheme} />
+          </div>
         </div>
-        <div className='sm:hidden'>
-          <TaskFilter isDarkTheme={isDarkTheme} />
-        </div>
-      </div>
+      </DragDropContext>
 
       <div
         className={`${

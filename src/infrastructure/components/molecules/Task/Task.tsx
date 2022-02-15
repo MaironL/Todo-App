@@ -33,7 +33,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
         <input
           onChange={(e) => updateTask(dispatch, id, e)}
           value={todoTask}
-          className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer w-full outline-0 outline-none ${
+          className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer w-3/4 outline-0 outline-none ${
             isDarkTheme && !isCheck
               ? 'bg-[#25273c] text-[#BEC0D9]'
               : isDarkTheme && isCheck
@@ -41,7 +41,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
               : !isDarkTheme && !isCheck
               ? 'bg-[#ffffff] text-[#64636E]'
               : 'bg-[#ffffff] text-[#cdcdd6] line-through'
-          } sm:text-lg`}
+          } sm:text-lg `}
         />
       </div>
 
