@@ -12,7 +12,7 @@ const Home = () => {
     filterTask(dispatch, 'All');
   }, [tasks]);
   return (
-    <main
+    <div
       className={`w-full h-full relative bg-no-repeat bg-top bg-contain sm:bg-auto pb-[4.4rem] sm:pb-[2rem]  ${
         isDarkTheme
           ? 'bg-[#161620] bg-mobileDarkTheme sm:bg-desktopDarkTheme'
@@ -106,7 +106,7 @@ const Home = () => {
         </a>
         .
       </div>
-    </main>
+    </div>
   );
 };
 
