@@ -28,7 +28,6 @@ export const getTask = (
 
 export const addTask = (dispatch: React.Dispatch<any>) => () => {
   dispatch({ type: ADDING_TASK });
-  dispatch({ type: GET_TASK, payload: '' });
 };
 
 export const updateTask = (

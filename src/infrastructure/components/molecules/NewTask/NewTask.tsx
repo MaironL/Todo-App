@@ -6,6 +6,12 @@ interface NewTaskInterface {
 
 const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
   const { dispatch, addTask, getTask, newTask } = useGlobalContext();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      dispatch({ type: 'ADDING_TASK' });
+    }
+  };
   return (
     <div
       className={`flex justify-between items-center px-5 py-[10px] rounded-md mt-10 mb-4 shadow-lg sm:py-5 sm:mb-6 sm:shadow-2xl sm:shadow-[#220a47] ${
@@ -26,6 +32,7 @@ const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
 
       <input
         type='text'
+        onKeyDown={handleKeyDown}
         onChange={(e) => getTask(dispatch, e)}
         value={newTask}
         className={`${

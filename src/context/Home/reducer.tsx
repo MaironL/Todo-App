@@ -47,8 +47,10 @@ const reducer = (state: IInitialState, { type, payload }: any) => {
     case ADDING_TASK:
       if (state.newTask) {
         let id = '_' + Math.random().toString(36).slice(2);
+        console.log('Estoy funcionando');
         return {
           ...state,
+          newTask: '',
           tasks: [...state.tasks, { todoTask: state.newTask, id, isCheck: false }],
         };
       } else {
