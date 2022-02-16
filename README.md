@@ -33,7 +33,7 @@ Users should be able to:
 
 ### Screenshot
 
-![](./src//infrastructure/assets/images/screenDesktop.png)
+![](./src/infrastructure/assets/images/screenDesktop.png)
 
 efer not to add a screenshot, feel free to remove this entire section.\*\*
 
