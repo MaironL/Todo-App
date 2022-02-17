@@ -6,6 +6,7 @@ import C, { CI } from './Home/constant';
 interface IAppContext extends IInitialState {
   dispatch: React.Dispatch<any>;
   C: CI;
+  state: IInitialState;
 }
 
 //The Create Context
@@ -13,15 +14,21 @@ const AppContext = createContext<IAppContext>({
   ...initialState,
   dispatch: () => null,
   C,
+  state: initialState,
 });
 
 const AppProvider = ({ children }: any) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const localState = localStorage.getItem('state');
+  const [state, dispatch] = useReducer(
+    reducer,
+    (localState !== null && JSON.parse(localState)) || initialState
+  );
 
   return (
     <AppContext.Provider
       value={{
         ...state,
+        state,
         dispatch,
         C,
       }}

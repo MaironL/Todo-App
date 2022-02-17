@@ -5,12 +5,16 @@ import useReorder from './useReorderHook';
 import { useEffect } from 'react';
 
 const Home = () => {
-  const { isDarkTheme, filteredTask, tasks, C, dispatch } = useGlobalContext();
+  const { isDarkTheme, filteredTask, tasks, C, state, dispatch } = useGlobalContext();
   const { reorder } = useReorder();
 
   useEffect(() => {
     dispatch({ type: C.FILTER_TASKS, payload: 'All' });
   }, [tasks]);
+
+  useEffect(() => {
+    localStorage.setItem('state', JSON.stringify(state));
+  }, [state]);
   return (
     <div
       className={`w-full h-full relative bg-no-repeat bg-top bg-contain sm:bg-auto pb-[4.4rem] sm:pb-[2rem]  ${
