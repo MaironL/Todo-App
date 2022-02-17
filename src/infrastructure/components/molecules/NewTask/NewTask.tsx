@@ -1,17 +1,14 @@
 import { useGlobalContext } from 'context';
+import useEnterkey from './useEnterKey';
 
 interface NewTaskInterface {
   isDarkTheme: boolean;
 }
 
 const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
-  const { dispatch, addTask, getTask, newTask } = useGlobalContext();
+  const { dispatch, C, newTask } = useGlobalContext();
+  const { enterKey } = useEnterkey();
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      dispatch({ type: 'ADDING_TASK' });
-    }
-  };
   return (
     <div
       className={`flex justify-between items-center px-5 py-[10px] rounded-md mt-10 mb-4 shadow-lg sm:py-5 sm:mb-6 sm:shadow-2xl sm:shadow-[#220a47] ${
@@ -21,7 +18,9 @@ const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
       <div
         className='relative flex items-center pr-4 sm:pr-5'
         tabIndex={0}
-        onClick={addTask(dispatch)}
+        onClick={() => {
+          dispatch({ type: C.ADDING_TASK });
+        }}
       >
         <div
           className={`border rounded-full w-5 h-5 sm:w-6 sm:h-6 sm:border-2 cursor-pointer ${
@@ -32,8 +31,8 @@ const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
 
       <input
         type='text'
-        onKeyDown={handleKeyDown}
-        onChange={(e) => getTask(dispatch, e)}
+        onKeyDown={enterKey}
+        onChange={(e) => dispatch({ type: C.GET_TASK, payload: e })}
         value={newTask}
         className={`${
           isDarkTheme

@@ -1,9 +1,25 @@
-export const THEME_SWITCH = 'THEME_SWITCH';
-export const CHECKIN = 'CHECKIN';
-export const ADDING_TASK = 'ADDING_TASK';
-export const GET_TASK = 'GET_TASK';
-export const UPDATE_TASK = 'UPDATE_TASK';
-export const DELETE_TASK = 'DELETE_TASK';
-export const CLEAR_COMPLETED = 'CLEAR_ COMPLETED';
-export const FILTER_TASKS = 'FILTER_TASKS';
-export const REORDER_TASK = 'REORDER_TASK';
+export interface CI {
+  THEME_SWITCH: string;
+  CHECKIN: string;
+  ADDING_TASK: string;
+  GET_TASK: string;
+  UPDATE_TASK: string;
+  DELETE_TASK: string;
+  CLEAR_COMPLETED: string;
+  FILTER_TASKS: string;
+  REORDER_TASK: string;
+}
+
+const C: CI = {
+  THEME_SWITCH: 'THEME_SWITCH',
+  CHECKIN: 'CHECKIN',
+  ADDING_TASK: 'ADDING_TASK',
+  GET_TASK: 'GET_TASK',
+  UPDATE_TASK: 'UPDATE_TASK',
+  DELETE_TASK: 'DELETE_TASK',
+  CLEAR_COMPLETED: 'CLEAR_ COMPLETED',
+  FILTER_TASKS: 'FILTER_TASKS',
+  REORDER_TASK: 'REORDER_TASK',
+};
+
+export default C;

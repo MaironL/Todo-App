@@ -8,7 +8,7 @@ interface TaskInterface {
   id: string;
 }
 const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
-  const { dispatch, checkIn, updateTask, deleteTask } = useGlobalContext();
+  const { dispatch, C } = useGlobalContext();
   return (
     <div
       className={`flex justify-between items-center px-5 py-4 first:rounded-t-md last:rounded-b-md last:border-b-0 last:shadow-lg border-b-[1px] ${
@@ -21,7 +21,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
         <div
           className='relative flex items-center pr-4 sm:pr-5'
           tabIndex={0}
-          onClick={checkIn(dispatch, id)}
+          onClick={() => dispatch({ type: C.CHECKIN, payload: id })}
         >
           <div
             className={`border rounded-full w-5 h-5 sm:w-6 sm:h-6 sm:border-2 cursor-pointer ${
@@ -31,7 +31,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
           {isCheck && <img className='absolute left-[15%]' src={check} alt='check' />}
         </div>
         <input
-          onChange={(e) => updateTask(dispatch, id, e)}
+          onChange={(e) => dispatch({ type: C.UPDATE_TASK, payload: { id, e } })}
           value={todoTask}
           className={`text-xs font-["Josefin_Sans"] pt-1 cursor-pointer w-full outline-0 outline-none ${
             isDarkTheme && !isCheck
@@ -49,7 +49,7 @@ const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
         className='h-3 ml-2 sm:h-4 cursor-pointer'
         src={cross}
         alt='delete'
-        onClick={deleteTask(dispatch, id)}
+        onClick={() => dispatch({ type: C.DELETE_TASK, payload: id })}
       />
     </div>
   );

@@ -1,11 +1,13 @@
 import { useGlobalContext } from 'context';
 import TaskFilter from 'infrastructure/components/molecules/TaskFilter/TaskFilter';
+import useHowMany from './useHowMany';
 
 interface TaskLeftInterface {
   isDarkTheme: boolean;
 }
 const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
-  const { howMany, tasks, clear, dispatch } = useGlobalContext();
+  const { tasks, C, dispatch } = useGlobalContext();
+  const { howMany } = useHowMany();
 
   return (
     <div
@@ -20,7 +22,7 @@ const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
         <TaskFilter isDarkTheme={isDarkTheme} />
       </div>
       <p
-        onClick={clear(dispatch)}
+        onClick={() => dispatch({ type: C.CLEAR_COMPLETED })}
         className={`cursor-pointer  ${
           isDarkTheme ? ' hover:text-[#BEC0D9]' : 'hover:text-[#64636E]'
         }`}

@@ -5,11 +5,11 @@ import useReorder from './useReorderHook';
 import { useEffect } from 'react';
 
 const Home = () => {
-  const { isDarkTheme, filteredTask, tasks, filterTask, dispatch } = useGlobalContext();
+  const { isDarkTheme, filteredTask, tasks, C, dispatch } = useGlobalContext();
   const { reorder } = useReorder();
 
   useEffect(() => {
-    filterTask(dispatch, 'All');
+    dispatch({ type: C.FILTER_TASKS, payload: 'All' });
   }, [tasks]);
   return (
     <div

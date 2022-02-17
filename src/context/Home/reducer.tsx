@@ -1,14 +1,4 @@
-import {
-  THEME_SWITCH,
-  CHECKIN,
-  ADDING_TASK,
-  GET_TASK,
-  UPDATE_TASK,
-  DELETE_TASK,
-  CLEAR_COMPLETED,
-  FILTER_TASKS,
-  REORDER_TASK,
-} from './constant';
+import C from './constant';
 
 export interface IInitialState {
   isDarkTheme: boolean;
@@ -29,65 +19,68 @@ export const initialState: IInitialState = {
 const reducer = (state: IInitialState, { type, payload }: any) => {
   switch (type) {
     /*==============================*/
-    case THEME_SWITCH:
+    case C.THEME_SWITCH:
       return { ...state, isDarkTheme: !state.isDarkTheme };
     /*==============================*/
-    case CHECKIN:
+    case C.CHECKIN:
       const check = state.tasks.map((toCheck) => {
-        if (toCheck.id === payload) {
-          return { ...toCheck, isCheck: !toCheck.isCheck };
-        }
-        return toCheck;
+        return toCheck.id === payload
+          ? { ...toCheck, isCheck: !toCheck.isCheck }
+          : toCheck;
       });
       return { ...state, tasks: check };
     /*==============================*/
-    case GET_TASK:
-      return { ...state, newTask: payload };
+    case C.GET_TASK:
+      const newTask = payload.target.value;
+      return { ...state, newTask };
     /*==============================*/
-    case ADDING_TASK:
+    case C.ADDING_TASK:
       if (state.newTask) {
-        let id = '_' + Math.random().toString(36).slice(2);
-        console.log('Estoy funcionando');
+        const id = '_' + Math.random().toString(36).slice(2);
+        const taskToAdd = { todoTask: state.newTask, id, isCheck: false };
         return {
           ...state,
           newTask: '',
-          tasks: [...state.tasks, { todoTask: state.newTask, id, isCheck: false }],
+          tasks: [...state.tasks, taskToAdd],
         };
       } else {
         return { ...state };
       }
     /*==============================*/
-    case UPDATE_TASK:
+    case C.UPDATE_TASK:
       const update = state.tasks.map((toUpdate) => {
-        if (toUpdate.id === payload.id) {
-          return { ...toUpdate, todoTask: payload.updatedTask };
-        }
-        return toUpdate;
+        return toUpdate.id === payload.id
+          ? { ...toUpdate, todoTask: payload.e.target.value }
+          : toUpdate;
       });
       return { ...state, tasks: update };
     /*==============================*/
-    case DELETE_TASK:
+    case C.DELETE_TASK:
       const deleting = state.tasks.filter((toDelete) => toDelete.id !== payload);
       return { ...state, tasks: deleting };
     /*==============================*/
-    case CLEAR_COMPLETED:
+    case C.CLEAR_COMPLETED:
       const clear = state.tasks.filter((toClear) => toClear.isCheck === false);
       return { ...state, tasks: clear };
     /*==============================*/
-    case FILTER_TASKS:
-      if (payload === 'Active') {
-        const tasks = state.tasks.filter((task) => task.isCheck === false);
-        return { ...state, filteredTask: tasks, selectedFilter: 'Active' };
-      } else if (payload === 'Completed') {
-        const tasks = state.tasks.filter((task) => task.isCheck === true);
-        return { ...state, filteredTask: tasks, selectedFilter: 'Completed' };
-      } else if (payload === 'All') {
-        return { ...state, filteredTask: state.tasks, selectedFilter: 'All' };
-      } else {
-        return { ...state, filteredTask: state.tasks };
-      }
+    case C.FILTER_TASKS:
+      return payload === 'Active'
+        ? {
+            ...state,
+            filteredTask: state.tasks.filter((task) => task.isCheck === false),
+            selectedFilter: 'Active',
+          }
+        : payload === 'Completed'
+        ? {
+            ...state,
+            filteredTask: state.tasks.filter((task) => task.isCheck === true),
+            selectedFilter: 'Completed',
+          }
+        : payload === 'All'
+        ? { ...state, filteredTask: state.tasks, selectedFilter: 'All' }
+        : { ...state, filteredTask: state.tasks };
     /*==============================*/
-    case REORDER_TASK:
+    case C.REORDER_TASK:
       return { ...state, tasks: payload };
 
     default:

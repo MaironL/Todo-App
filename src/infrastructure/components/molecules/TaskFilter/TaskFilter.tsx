@@ -5,7 +5,7 @@ interface TaskFilterInterface {
 }
 
 const TaskFilter = ({ isDarkTheme }: TaskFilterInterface) => {
-  const { filterTask, dispatch, selectedFilter } = useGlobalContext();
+  const { C, dispatch, selectedFilter } = useGlobalContext();
   return (
     <div
       className={`flex justify-around items-center px-[4.3rem] py-3 rounded-md mt-4 shadow-md font-["Josefin_Sans"] text-sm sm:py-0 sm:mt-0 sm:shadow-none sm:px-0 ${
@@ -13,7 +13,7 @@ const TaskFilter = ({ isDarkTheme }: TaskFilterInterface) => {
       }`}
     >
       <button
-        onClick={() => filterTask(dispatch, 'All')}
+        onClick={() => dispatch({ type: C.FILTER_TASKS, payload: 'All' })}
         className={`pt-1 font-bold cursor-pointer ${
           selectedFilter === 'All' && 'text-[#4C76CC]'
         } ${isDarkTheme ? ' hover:text-[#BEC0D9]' : 'hover:text-[#64636E]'}`}
@@ -21,7 +21,7 @@ const TaskFilter = ({ isDarkTheme }: TaskFilterInterface) => {
         All
       </button>
       <button
-        onClick={() => filterTask(dispatch, 'Active')}
+        onClick={() => dispatch({ type: C.FILTER_TASKS, payload: 'Active' })}
         className={`pt-1 font-bold sm:mx-[1.8rem] cursor-pointer  ${
           selectedFilter === 'Active' && 'text-[#4C76CC]'
         } ${isDarkTheme ? ' hover:text-[#BEC0D9]' : 'hover:text-[#64636E]'}`}
@@ -29,7 +29,7 @@ const TaskFilter = ({ isDarkTheme }: TaskFilterInterface) => {
         Active
       </button>
       <button
-        onClick={() => filterTask(dispatch, 'Completed')}
+        onClick={() => dispatch({ type: C.FILTER_TASKS, payload: 'Completed' })}
         className={`pt-1 font-bold cursor-pointer  ${
           selectedFilter === 'Completed' && 'text-[#4C76CC]'
         } ${isDarkTheme ? ' hover:text-[#BEC0D9]' : 'hover:text-[#64636E]'}`}
