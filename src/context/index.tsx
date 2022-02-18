@@ -18,11 +18,11 @@ const AppContext = createContext<IAppContext>({
 });
 
 const AppProvider = ({ children }: any) => {
-  const localState = localStorage.getItem('state');
-  const [state, dispatch] = useReducer(
-    reducer,
-    (localState !== null && JSON.parse(localState)) || initialState
-  );
+  const getlocalStorage = () => {
+    const localState = localStorage.getItem('state');
+    return localState !== null && JSON.parse(localState);
+  };
+  const [state, dispatch] = useReducer(reducer, getlocalStorage() || initialState);
 
   return (
     <AppContext.Provider
