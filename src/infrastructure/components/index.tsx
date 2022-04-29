@@ -1,4 +1,5 @@
 //atoms components
+export { default as FormInput } from './atoms/FormInput';
 
 //molescules components
 export { default as Header } from './molecules/Header/Header';

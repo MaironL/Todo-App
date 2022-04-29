@@ -1,28 +1,52 @@
 import { Header, NewTask, Task, TaskLeft, TaskFilter } from 'infrastructure/components';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useGlobalContext } from 'context';
-import useReorder from './useReorderHook';
+import { useReorder, useLogout, useGetTasks } from './homeHooks';
 import { useEffect } from 'react';
 
 const Home = () => {
-  const { isDarkTheme, filteredTask, tasks, C, state, dispatch } = useGlobalContext();
+  const { C, toLocalStorage, userAuth, dispatch } = useGlobalContext();
+  const { controller, setIsMounted, getTasks } = useGetTasks();
   const { reorder } = useReorder();
+  const { logout } = useLogout();
 
   useEffect(() => {
     dispatch({ type: C.FILTER_TASKS, payload: 'All' });
-  }, [tasks]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toLocalStorage.tasks]);
 
   useEffect(() => {
-    localStorage.setItem('state', JSON.stringify(state));
-  }, [state]);
+    localStorage.setItem('ToDo', JSON.stringify(toLocalStorage));
+  }, [toLocalStorage]);
+
+  useEffect(() => {
+    getTasks();
+    return () => {
+      setIsMounted(false);
+      controller.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div
       className={`w-full h-full relative bg-no-repeat bg-top bg-contain sm:bg-auto pb-[4.4rem] sm:pb-[2rem]  ${
-        isDarkTheme
+        toLocalStorage.isDarkTheme
           ? 'bg-[#161620] bg-mobileDarkTheme sm:bg-desktopDarkTheme'
           : 'bg-[#fafafa] bg-mobileLightTheme sm:bg-desktopLightTheme'
       } px-6 flex flex-col items-center`}
     >
+      <div className='flex-col self-end items-end md:absolute md:right-8 flex mt-4'>
+        <span className='text-slate-50 tracking-[0.3rem] font-semibold drop-shadow-lg shadow-indigo-800'>
+          Welcome {userAuth.role} {userAuth.name}
+        </span>
+        <button
+          onClick={logout}
+          className='mt-4 bg-red-500 hover:bg-red-600 tracking-[0.1rem] transition-colors text-slate-50 font-medium px-4 py-1 rounded-lg'
+        >
+          Logout
+        </button>
+      </div>
       <DragDropContext
         onDragEnd={(result) => {
           const { source, destination } = result;
@@ -35,19 +59,19 @@ const Home = () => {
           ) {
             return;
           }
-          reorder(tasks, source.index, destination.index);
+          reorder(toLocalStorage.tasks, source.index, destination.index);
         }}
       >
         <div className='container max-w-[540px] mt-11'>
           {/* Header */}
-          <Header isDarkTheme={isDarkTheme} />
+          <Header isDarkTheme={toLocalStorage.isDarkTheme} />
           {/* Input */}
-          <NewTask isDarkTheme={isDarkTheme} />
+          <NewTask isDarkTheme={toLocalStorage.isDarkTheme} />
           {/* task */}
           <Droppable droppableId='tasks'>
             {(droppProv) => (
               <div {...droppProv.droppableProps} ref={droppProv.innerRef}>
-                {filteredTask.map((task, i) => {
+                {toLocalStorage.filteredTask.map((task, i) => {
                   const { todoTask, id, isCheck } = task;
 
                   return (
@@ -55,7 +79,7 @@ const Home = () => {
                       {(draggProv) => (
                         <div
                           className={` border-b-[1px] ${
-                            isDarkTheme
+                            toLocalStorage.isDarkTheme
                               ? 'bg-[#25273c] border-b-[#303348]'
                               : 'bg-[#ffffff] border-b-[#EDECF2]'
                           }`}
@@ -66,7 +90,7 @@ const Home = () => {
                           <Task
                             id={id}
                             isCheck={isCheck}
-                            isDarkTheme={isDarkTheme}
+                            isDarkTheme={toLocalStorage.isDarkTheme}
                             todoTask={todoTask}
                           />
                         </div>
@@ -76,19 +100,19 @@ const Home = () => {
                 })}
                 {/*task left */}
                 {droppProv.placeholder}
-                <TaskLeft isDarkTheme={isDarkTheme} />
+                <TaskLeft isDarkTheme={toLocalStorage.isDarkTheme} />
               </div>
             )}
           </Droppable>
           <div className='sm:hidden'>
-            <TaskFilter isDarkTheme={isDarkTheme} />
+            <TaskFilter isDarkTheme={toLocalStorage.isDarkTheme} />
           </div>
         </div>
       </DragDropContext>
 
       <div
         className={`${
-          isDarkTheme ? ' text-[#696B80]' : ' text-[#25273c]'
+          toLocalStorage.isDarkTheme ? ' text-[#696B80]' : ' text-[#25273c]'
         }  font-["Josefin_Sans"] mt-[2.7rem] text-[0.85rem]`}
       >
         <p>Drag and drop to reorder list</p>

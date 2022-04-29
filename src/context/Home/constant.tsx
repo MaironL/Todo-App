@@ -1,8 +1,12 @@
 export interface CI {
   THEME_SWITCH: string;
+  GET_USER_AUTH: string;
+  LOGOUT: string;
+  SET_LOADING: string;
+  TRUST_DEVICE: string;
   CHECKIN: string;
-  ADDING_TASK: string;
   GET_TASK: string;
+  ADDING_TASK: string;
   UPDATE_TASK: string;
   DELETE_TASK: string;
   CLEAR_COMPLETED: string;
@@ -12,9 +16,13 @@ export interface CI {
 
 const C: CI = {
   THEME_SWITCH: 'THEME_SWITCH',
+  GET_USER_AUTH: ' GET_USER_AUTH',
+  LOGOUT: 'LOGOUT',
+  SET_LOADING: 'LOADING',
+  TRUST_DEVICE: 'TRUST_DEVICE',
   CHECKIN: 'CHECKIN',
-  ADDING_TASK: 'ADDING_TASK',
   GET_TASK: 'GET_TASK',
+  ADDING_TASK: 'ADDING_TASK',
   UPDATE_TASK: 'UPDATE_TASK',
   DELETE_TASK: 'DELETE_TASK',
   CLEAR_COMPLETED: 'CLEAR_ COMPLETED',

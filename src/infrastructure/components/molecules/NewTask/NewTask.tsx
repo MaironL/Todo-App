@@ -1,12 +1,14 @@
 import { useGlobalContext } from 'context';
-import useEnterkey from './useEnterKey';
+import useAddNewTask from './newTaskHooks/useAddNewTask';
+import useEnterkey from './newTaskHooks/useEnterKey';
 
 interface NewTaskInterface {
   isDarkTheme: boolean;
 }
 
 const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
-  const { dispatch, C, newTask } = useGlobalContext();
+  const { dispatch, C, toLocalStorage } = useGlobalContext();
+  const { addTask } = useAddNewTask();
   const { enterKey } = useEnterkey();
 
   return (
@@ -15,13 +17,7 @@ const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
         isDarkTheme ? 'bg-[#25273c]' : 'bg-[#ffffff]'
       }`}
     >
-      <div
-        className='relative flex items-center pr-4 sm:pr-5'
-        tabIndex={0}
-        onClick={() => {
-          dispatch({ type: C.ADDING_TASK });
-        }}
-      >
+      <div className='relative flex items-center pr-4 sm:pr-5' tabIndex={0} onClick={addTask}>
         <div
           className={`border rounded-full w-5 h-5 sm:w-6 sm:h-6 sm:border-2 cursor-pointer ${
             isDarkTheme ? 'border-[#33354A]' : 'border-[#ECECEE]'
@@ -33,7 +29,7 @@ const NewTask = ({ isDarkTheme }: NewTaskInterface) => {
         type='text'
         onKeyDown={enterKey}
         onChange={(e) => dispatch({ type: C.GET_TASK, payload: e })}
-        value={newTask}
+        value={toLocalStorage.newTask}
         className={`${
           isDarkTheme
             ? 'bg-[#25273c] text-[#fafafa] placeholder:text-[#696B80]'

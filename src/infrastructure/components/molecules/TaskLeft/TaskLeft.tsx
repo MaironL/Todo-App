@@ -6,7 +6,7 @@ interface TaskLeftInterface {
   isDarkTheme: boolean;
 }
 const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
-  const { tasks, C, dispatch } = useGlobalContext();
+  const { toLocalStorage, C, dispatch } = useGlobalContext();
   const { howMany } = useHowMany();
 
   return (
@@ -17,7 +17,7 @@ const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
           : 'bg-[#ffffff] border-b-[#EDECF2] text-[#A8A7AB]'
       }`}
     >
-      <p>{howMany(tasks)} items left</p>
+      <p>{howMany(toLocalStorage.tasks)} items left</p>
       <div className='hidden sm:block'>
         <TaskFilter isDarkTheme={isDarkTheme} />
       </div>

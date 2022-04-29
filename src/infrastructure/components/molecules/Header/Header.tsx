@@ -9,7 +9,7 @@ const Header = ({ isDarkTheme }: HeaderInterface) => {
   const { dispatch, C } = useGlobalContext();
 
   return (
-    <header className='flex justify-between items-center sm:mt-6'>
+    <header className='flex justify-between items-center md:mt-6'>
       <h1 className='inline-block text-[1.65rem] h-[26px] text-slate-50 tracking-[0.6rem] font-["Josefin_Sans"] font-bold sm:tracking-[0.9rem] sm:h-[3rem] sm:text-[2.5rem]'>
         TODO
       </h1>

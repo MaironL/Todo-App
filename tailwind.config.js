@@ -7,6 +7,7 @@ module.exports = {
         desktopLightTheme: 'url(infrastructure/assets/images/bg-desktop-light.jpg)',
         mobileDarkTheme: 'url(infrastructure/assets/images/bg-mobile-dark.jpg)',
         mobileLightTheme: 'url(infrastructure/assets/images/bg-mobile-light.jpg)',
+        form: 'url(infrastructure/assets/images/bg-form.jpg)',
       },
     },
     screens: {
