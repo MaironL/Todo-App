@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGlobalContext } from 'context';
 import { Outlet } from 'react-router-dom';
+import { Spinner } from 'infrastructure/components';
 import useRefreshAuth from 'infrastructure/Auth/useRefreshAuth';
 import useAuth from 'infrastructure/Auth/useAuth';
 
@@ -30,9 +31,7 @@ const PersistAuthRoutes = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>{!toLocalStorage.trustDevice ? <Outlet /> : isLoading ? <div>Loading...</div> : <Outlet />}</>
-  );
+  return <>{!toLocalStorage.trustDevice ? <Outlet /> : isLoading ? <Spinner /> : <Outlet />}</>;
 };
 
 export default PersistAuthRoutes;

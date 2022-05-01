@@ -1,5 +1,6 @@
 //atoms components
 export { default as FormInput } from './atoms/FormInput';
+export { default as Spinner } from './atoms/Spinner';
 
 //molescules components
 export { default as Header } from './molecules/Header/Header';
