@@ -17,6 +17,10 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
 
 ## Overview
 
+This project started as a normal crud challenge, but I decided to make it a bit more complex, so I create a custom API Rest with Node Express, MongoDB and Mongoose, to add some features like access token, and refresh token (cookie) authentication, roles authorization, and persistent sessions without the use of local or session storage.
+
+In the future i want to add a recovery password feature, and user profile.
+
 ### The challenge
 
 Users should be able to:
@@ -35,8 +39,6 @@ Users should be able to:
 
 ![](./src/infrastructure/assets/images/screenDesktop.png)
 
-efer not to add a screenshot, feel free to remove this entire section.\*\*
-
 ### Links
 
 - Solution URL: [Go to Front-end Mentor solution](https://www.frontendmentor.io/solutions/todo-app-with-reacttypescript-and-tailwind-JHU_EOz6o)
@@ -54,6 +56,7 @@ efer not to add a screenshot, feel free to remove this entire section.\*\*
 - [TypeScript](https://www.typescriptlang.org/)
 - [React](https://reactjs.org/) - JS library
 - [Tailwind](https://tailwindcss.com/) - For styles
+- [Netlify](https://www.netlify.com/) - Deployment
 
 ### What I learned
 

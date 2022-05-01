@@ -1,12 +1,13 @@
 import { useGlobalContext } from 'context';
 import TaskFilter from 'infrastructure/components/molecules/TaskFilter/TaskFilter';
-import useHowMany from './useHowMany';
+import { useHowMany, useDeleteMany } from './taskleftHooks';
 
 interface TaskLeftInterface {
   isDarkTheme: boolean;
 }
 const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
-  const { toLocalStorage, C, dispatch } = useGlobalContext();
+  const { tasksList } = useGlobalContext();
+  const { deleteTasks } = useDeleteMany();
   const { howMany } = useHowMany();
 
   return (
@@ -17,12 +18,12 @@ const TaskLeft = ({ isDarkTheme }: TaskLeftInterface) => {
           : 'bg-[#ffffff] border-b-[#EDECF2] text-[#A8A7AB]'
       }`}
     >
-      <p>{howMany(toLocalStorage.tasks)} items left</p>
+      <p>{howMany(tasksList)} items left</p>
       <div className='hidden sm:block'>
         <TaskFilter isDarkTheme={isDarkTheme} />
       </div>
       <p
-        onClick={() => dispatch({ type: C.CLEAR_COMPLETED })}
+        onClick={deleteTasks}
         className={`cursor-pointer  ${
           isDarkTheme ? ' hover:text-[#BEC0D9]' : 'hover:text-[#64636E]'
         }`}

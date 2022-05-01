@@ -1,12 +1,15 @@
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import useAxiosPrivate from 'infrastructure/Auth/useAxiosPrivate';
 import { useGlobalContext } from 'context';
 
 const useModifyList = () => {
   const MySwal = withReactContent(Swal);
-  const { dispatch, C, toLocalStorage } = useGlobalContext();
+  const { axiosPrivate } = useAxiosPrivate();
+  const { dispatch, C, tasksList } = useGlobalContext();
 
   const updateTask = (id: string) => {
+    const task = tasksList.find((toUpdate) => toUpdate._id === id);
     MySwal.fire({
       icon: 'question',
       iconColor: 'rgb(107, 33, 168, 0.6)',
@@ -20,24 +23,42 @@ const useModifyList = () => {
       cancelButtonText: 'No, cancel!',
     }).then((result) => {
       if (result.isConfirmed && result.value.trim() !== '') {
-        //crear logica para actulizar el item a la API Rest
-        //tal vez una accion
-        dispatch({ type: C.UPDATE_TASK, payload: { id, updated: result.value } });
-        MySwal.fire({
-          toast: true,
-          icon: 'success',
-          title: 'You succesfully updated the task',
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-        });
+        axiosPrivate
+          .patch(`/tasks/${id}`, { ...task, task: result.value })
+          .then((response) => {
+            if (response) {
+              dispatch({ type: C.UPDATE_TASK });
+            }
+          })
+          .then(() => {
+            MySwal.fire({
+              toast: true,
+              icon: 'success',
+              title: 'You succesfully updated the selected task',
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            MySwal.fire({
+              toast: true,
+              icon: 'error',
+              title: 'something went wrong',
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          });
       }
     });
   };
 
   const checkingTask = (id: string) => {
-    const task = toLocalStorage.tasks.find((toDelete) => toDelete.id === id);
+    const task = tasksList.find((toCheck) => toCheck._id === id);
     MySwal.fire({
       width: 'min(90%, 370px)',
       padding: '1rem 10px',
@@ -57,18 +78,36 @@ const useModifyList = () => {
       cancelButtonText: 'No, cancel!',
     }).then((result) => {
       if (result.isConfirmed) {
-        //crear logica para actulizar el item a la API Rest
-        //tal vez una accion
-        dispatch({ type: C.CHECKIN, payload: id });
-        MySwal.fire({
-          toast: true,
-          icon: 'success',
-          title: 'You succesfully checked the task',
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-        });
+        axiosPrivate
+          .patch(`/tasks/${id}`, { ...task, isCheck: !task?.isCheck })
+          .then((response) => {
+            if (response) {
+              dispatch({ type: C.UPDATE_TASK });
+            }
+          })
+          .then(() => {
+            MySwal.fire({
+              toast: true,
+              icon: 'success',
+              title: 'You succesfully check the selected task',
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            MySwal.fire({
+              toast: true,
+              icon: 'error',
+              title: 'something went wrong',
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          });
       }
     });
   };
@@ -89,18 +128,36 @@ const useModifyList = () => {
       cancelButtonText: 'No, cancel!',
     }).then((result) => {
       if (result.isConfirmed) {
-        //crear logica para borrar el item a la API Rest
-        //tal vez una accion
-        dispatch({ type: C.DELETE_TASK, payload: id });
-        MySwal.fire({
-          toast: true,
-          icon: 'success',
-          title: 'You succesfully deleted the task',
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-        });
+        axiosPrivate
+          .delete(`/tasks/${id}`)
+          .then((response) => {
+            if (response) {
+              dispatch({ type: C.DELETE_TASK });
+            }
+          })
+          .then(() => {
+            MySwal.fire({
+              toast: true,
+              icon: 'success',
+              title: 'You succesfully delete the selected task',
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            MySwal.fire({
+              toast: true,
+              icon: 'error',
+              title: 'something went wrong',
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+            });
+          });
       }
     });
   };

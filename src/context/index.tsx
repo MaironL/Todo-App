@@ -23,6 +23,9 @@ const AppProvider = ({ children }: any) => {
       localState !== null && {
         userAuth: { token: '', name: '', role: '' },
         isLoading: false,
+        listStatus: 'updated',
+        tasksList: [],
+        filteredTask: [],
         toLocalStorage: { ...localStateParsed },
       }
     );

@@ -1,11 +1,11 @@
-import useAddNewTask from './useAddNewTask';
+import useForm from './useForm';
 
 const useEnterKey = () => {
-  const { addTask } = useAddNewTask();
+  const { handleSubmit } = useForm();
 
   const enterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      return addTask();
+      return handleSubmit;
     }
   };
 

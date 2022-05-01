@@ -1,6 +1,5 @@
-import { useGlobalContext } from 'context';
 import { check, cross } from 'infrastructure/assets/images';
-import useModifyTask from './taskHooks/useModifyTask';
+import { useModifyTask } from './taskHooks';
 
 interface TaskInterface {
   isCheck: boolean;
@@ -9,7 +8,6 @@ interface TaskInterface {
   id: string;
 }
 const Task = ({ isCheck, isDarkTheme, todoTask, id }: TaskInterface) => {
-  const { dispatch, C } = useGlobalContext();
   const { updateTask, deleteTask, checkingTask } = useModifyTask();
 
   return (

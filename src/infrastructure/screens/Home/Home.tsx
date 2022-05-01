@@ -5,15 +5,16 @@ import { useReorder, useLogout, useGetTasks } from './homeHooks';
 import { useEffect } from 'react';
 
 const Home = () => {
-  const { C, toLocalStorage, userAuth, dispatch } = useGlobalContext();
-  const { controller, setIsMounted, getTasks } = useGetTasks();
+  const { C, toLocalStorage, filteredTask, tasksList, userAuth, listStatus, dispatch } =
+    useGlobalContext();
+  const { controller, getTasks } = useGetTasks();
   const { reorder } = useReorder();
   const { logout } = useLogout();
 
   useEffect(() => {
     dispatch({ type: C.FILTER_TASKS, payload: 'All' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [toLocalStorage.tasks]);
+  }, [tasksList]);
 
   useEffect(() => {
     localStorage.setItem('ToDo', JSON.stringify(toLocalStorage));
@@ -22,11 +23,10 @@ const Home = () => {
   useEffect(() => {
     getTasks();
     return () => {
-      setIsMounted(false);
       controller.abort();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [listStatus]);
 
   return (
     <div
@@ -59,7 +59,7 @@ const Home = () => {
           ) {
             return;
           }
-          reorder(toLocalStorage.tasks, source.index, destination.index);
+          reorder(tasksList, source.index, destination.index);
         }}
       >
         <div className='container max-w-[540px] mt-11'>
@@ -71,11 +71,11 @@ const Home = () => {
           <Droppable droppableId='tasks'>
             {(droppProv) => (
               <div {...droppProv.droppableProps} ref={droppProv.innerRef}>
-                {toLocalStorage.filteredTask.map((task, i) => {
-                  const { todoTask, id, isCheck } = task;
+                {filteredTask.map((taskItem, i) => {
+                  const { task, _id, isCheck } = taskItem;
 
                   return (
-                    <Draggable key={id} draggableId={id} index={i}>
+                    <Draggable key={_id} draggableId={_id} index={i}>
                       {(draggProv) => (
                         <div
                           className={` border-b-[1px] ${
@@ -88,10 +88,10 @@ const Home = () => {
                           ref={draggProv.innerRef}
                         >
                           <Task
-                            id={id}
+                            id={_id}
                             isCheck={isCheck}
                             isDarkTheme={toLocalStorage.isDarkTheme}
-                            todoTask={todoTask}
+                            todoTask={task}
                           />
                         </div>
                       )}

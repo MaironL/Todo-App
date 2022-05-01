@@ -3,46 +3,39 @@ import withReactContent from 'sweetalert2-react-content';
 import useAxiosPrivate from 'infrastructure/Auth/useAxiosPrivate';
 import { useGlobalContext } from 'context';
 
-const useAddNewTask = () => {
-  const { axiosPrivate } = useAxiosPrivate();
+const useDeleteMany = () => {
   const MySwal = withReactContent(Swal);
+  const { axiosPrivate } = useAxiosPrivate();
   const { dispatch, C } = useGlobalContext();
 
-  const addTask = (taskWrited: string) => {
+  const deleteTasks = () => {
     MySwal.fire({
+      width: 'min(90%, 370px)',
+      padding: '1rem 10px',
+      toast: true,
       icon: 'question',
       iconColor: 'rgb(107, 33, 168, 0.6)',
       background: 'rgb(255, 255, 255, 0.85)',
-      html: (
-        <div className='flex flex-col'>
-          <h3 className='font-bold mb-2'>Are you sure you want to add this task</h3>
-          <p className='text-center text-xl'>{taskWrited}</p>
-        </div>
-      ),
+      html: <h3 className='font-bold mb-2'>Are you sure you want to all completed tasks</h3>,
       showCancelButton: true,
       confirmButtonColor: 'rgba(80, 160, 34, 0.9)',
       cancelButtonColor: 'rgba(198, 36, 36, 0.85)',
-      confirmButtonText: 'Yes, add it!',
+      confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'No, cancel!',
-      allowEnterKey: false,
     }).then((result) => {
-      if (result.isConfirmed && taskWrited.trim() !== '') {
-        const data = {
-          task: taskWrited,
-        };
-
+      if (result.isConfirmed) {
         axiosPrivate
-          .post(`/tasks`, data)
+          .delete(`/tasks`)
           .then((response) => {
             if (response) {
-              dispatch({ type: C.ADD_NEW_TASK });
+              dispatch({ type: C.DELETE_TASK });
             }
           })
           .then(() => {
             MySwal.fire({
               toast: true,
               icon: 'success',
-              title: 'You succesfully added a new task',
+              title: 'You succesfully deleted all completed tasks',
               position: 'top-end',
               showConfirmButton: false,
               timer: 1500,
@@ -61,21 +54,11 @@ const useAddNewTask = () => {
               timerProgressBar: true,
             });
           });
-      } else if (result.isConfirmed && taskWrited.trim() === '') {
-        MySwal.fire({
-          toast: true,
-          icon: 'error',
-          title: 'You must write a task!',
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 1500,
-          timerProgressBar: true,
-        });
       }
     });
   };
 
-  return { addTask };
+  return { deleteTasks };
 };
 
-export default useAddNewTask;
+export default useDeleteMany;

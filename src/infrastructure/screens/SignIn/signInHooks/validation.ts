@@ -20,7 +20,7 @@ const validation = (props: IValidation) => {
   } else if (
     !props.isLogin &&
     props.name.trim() &&
-    !/^[A-Za-z0-9]{3,16}$/.test(props.name.trim())
+    !/^[A-Za-z0-9_ ]{3,20}$/.test(props.name.trim())
   ) {
     errors.name = 'Username should be 3-16 characters and should´t include any special character!';
   } else {

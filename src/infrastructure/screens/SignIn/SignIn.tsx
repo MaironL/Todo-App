@@ -1,7 +1,7 @@
 import { useGlobalContext } from 'context';
 import { FormInput } from 'infrastructure/components';
 import { useEffect } from 'react';
-import { useForm } from './useForm';
+import { useForm } from './signInHooks';
 
 const SignIn = () => {
   const { values, errors, disableSubmit, setValues, handleSubmit, handleChange } = useForm();

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const useLogout = () => {
   const MySwal = withReactContent(Swal);
-  const { dispatch, C, toLocalStorage } = useGlobalContext();
+  const { dispatch, C } = useGlobalContext();
   const navigate = useNavigate();
 
   const logout = () => {
@@ -27,14 +27,16 @@ const useLogout = () => {
       allowEnterKey: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        dispatch({ type: C.LOGOUT });
-
         axios
           .get('/renewalAuthN/logout', {
             withCredentials: true,
           })
           .then(() => {
             navigate('/signIn');
+          })
+          .then(() => {
+            dispatch({ type: C.CLEAN_LIST });
+            dispatch({ type: C.LOGOUT });
           })
           .catch((error) => {
             console.log(error);

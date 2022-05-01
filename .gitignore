@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+.env
 #style guide
 style-guide.md
 
