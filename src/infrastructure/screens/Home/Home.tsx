@@ -30,7 +30,7 @@ const Home = () => {
 
   return (
     <div
-      className={`w-full h-full relative bg-no-repeat bg-top bg-contain sm:bg-auto pb-[4.4rem] sm:pb-[2rem]  ${
+      className={`w-full h-full relative bg-no-repeat bg-top bg-contain  pb-[4.4rem] sm:pb-[2rem]  ${
         toLocalStorage.isDarkTheme
           ? 'bg-[#161620] bg-mobileDarkTheme sm:bg-desktopDarkTheme'
           : 'bg-[#fafafa] bg-mobileLightTheme sm:bg-desktopLightTheme'

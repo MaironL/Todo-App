@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import validation from './validation';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import { useGlobalContext } from 'context';
 import axios from 'infrastructure/api/axios';
 
 const useForm = () => {
   const { dispatch, C } = useGlobalContext();
+  const MySwal = withReactContent(Swal);
+
   type LocationProps = {
     state: {
       from: Location;
@@ -61,11 +65,35 @@ const useForm = () => {
         },
       });
 
+      MySwal.fire({
+        toast: true,
+        icon: 'success',
+        title: 'Wellcome',
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+
       navigate(location?.state?.from || '/', { replace: true });
     } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
+      const { response } = error as Error & {
+        response: {
+          data: {
+            message: string;
+          };
+        };
+      };
+
+      MySwal.fire({
+        toast: true,
+        icon: 'error',
+        title: response?.data.message,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
     }
     dispatch({ type: C.SET_LOADING, payload: false });
   };
