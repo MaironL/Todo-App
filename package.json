@@ -27,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && npm workbox injectManifest",
+    "build": "react-scripts build && npx workbox injectManifest",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "pwa": "workbox injectManifest"
